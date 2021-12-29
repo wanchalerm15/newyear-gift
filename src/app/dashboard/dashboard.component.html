@@ -1,0 +1,58 @@
+<div class="container py-3">
+    <header class="text-center">
+        <h1 class="d-flex align-items-center justify-content-center">
+            <mat-icon>card_giftcard</mat-icon>
+            <span class="ms-2">{{ title }}</span>
+        </h1>
+        <p>เหลือเวลาอีก {{ timespan }}</p>
+        <p>เวลา {{ time | date : 'dd/MM/yyyy HH:mm:ss' }}</p>
+    </header>
+    <br>
+    <div class="row">
+        <div *ngFor="let item of items; let i = index" class="col-md-2">
+            <div class="card border-0" @flyInOut>
+                <div class="card-body text-center" [ngClass]="{ 'p-1': step == 1 && !item.open }">
+                    <ng-container *ngIf="!(step == 1 && !item.open); else giftTemp">
+                        <h4 class="card-title text-nowrap mb-1" (click)="onHide(item)" (dblclick)="onDelete(item)">
+                            {{ item.name }}
+                        </h4>
+                        <div class="img" [title]="item.detail || 'ไม่มีรายละเอียด'">
+                            <img [src]="item.image" class="img-thumbnail" />
+                        </div>
+                    </ng-container>
+
+                    <ng-template #giftTemp>
+                        <div class="img gift" (click)="onSelect(item)">
+                            <img src="assets/images/gift3.jpeg" class="img-thumbnail" />
+                            <div class="overay">
+                                <mat-icon>add_task</mat-icon>
+                                <span class="ms-2">เลือกกล่องนี้</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button mat-fab color="primary" class="button-f" (click)="onPlay()" *ngIf="step == 0">
+        <mat-icon>category</mat-icon>
+    </button>
+
+    <button mat-mini-fab class="button-f ml" (click)="onRandomNumber()" *ngIf="step == 1">
+        <mat-icon>shuffle</mat-icon>
+    </button>
+
+    <button mat-fab color="primary" class="button-f" (click)="onHistory()" *ngIf="step == 1">
+        <mat-icon>history</mat-icon>
+    </button>
+
+    <button mat-mini-fab color="warn" class="button-f mb" (click)="step = 0" *ngIf="step == 1">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<div class="firework-box" *ngIf="showFirework">
+    <img src="assets/images/firework.gif" alt="firework">
+</div>

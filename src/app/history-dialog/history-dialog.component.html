@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>รายชื่อจับของขวัญแล้ว</h1>
+<div mat-dialog-content>
+    รายชื่อผู้ที่จับของขวัญไปแล้ว มีดังนี้ :
+    <ul>
+        <li *ngFor="let item of data">
+            <span class="text-danger">{{ item.getn }}</span>
+            จับได้ของ
+            <span class="text-primary">{{ item.name }}</span>
+        </li>
+    </ul>
+</div>

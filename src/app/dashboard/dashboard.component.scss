@@ -1,0 +1,84 @@
+header {
+    color: white;
+}
+
+.card-title {
+    cursor: pointer;
+}
+
+.text-nowrap {
+    overflow     : hidden;
+    text-overflow: ellipsis;
+}
+
+.img {
+    height : 100px;
+    width  : 100%;
+    display: inline-block;
+
+    &.gift {
+        height    : 150px;
+        position  : relative;
+        transition: all 0.4s ease-in-out;
+
+        &:hover .overay {
+            opacity: 1;
+        }
+
+        .overay {
+            opacity         : 0;
+            position        : absolute;
+            left            : 0;
+            top             : 0;
+            height          : 100%;
+            width           : 100%;
+            background-color: rgba(0, 0, 0, .75);
+            color           : white;
+            display         : flex;
+            justify-content : center;
+            align-items     : center;
+            transition      : all 0.4s ease-in-out;
+            cursor          : pointer;
+        }
+    }
+
+    img {
+        width     : 100%;
+        height    : 100%;
+        object-fit: cover;
+    }
+}
+
+.button-f {
+    position: fixed;
+    z-index : 10;
+    right   : 10px;
+    top     : 10px;
+
+    &.mb {
+        top: 80px;
+    }
+
+    &.ml {
+        right: 80px;
+    }
+}
+
+.card {
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+
+.firework-box {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    position       : fixed;
+    left           : 0;
+    top            : 0;
+    width          : 100%;
+    height         : 100%;
+}
