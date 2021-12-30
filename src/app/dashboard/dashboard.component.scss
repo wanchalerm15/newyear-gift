@@ -81,4 +81,29 @@ header {
     top            : 0;
     width          : 100%;
     height         : 100%;
+    z-index        : 10000;
+    opacity        : 0.75;
+}
+
+.close,
+.delete {
+    position  : absolute;
+    top       : 4px;
+    font-size : 16px;
+    height    : 16px;
+    width     : 16px;
+    cursor    : pointer;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+        color: red;
+    }
+}
+
+.close {
+    right: 4px;
+}
+
+.delete {
+    left: 4px;
 }

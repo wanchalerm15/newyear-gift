@@ -13,12 +13,14 @@
             <div class="card border-0" @flyInOut>
                 <div class="card-body text-center" [ngClass]="{ 'p-1': step == 1 && !item.open }">
                     <ng-container *ngIf="!(step == 1 && !item.open); else giftTemp">
-                        <h4 class="card-title text-nowrap mb-1" (click)="onHide(item)" (dblclick)="onDelete(item)">
+                        <h4 class="card-title text-nowrap mb-1">
                             {{ item.name }}
                         </h4>
                         <div class="img" [title]="item.detail || 'ไม่มีรายละเอียด'">
                             <img [src]="item.image" class="img-thumbnail" />
                         </div>
+                        <mat-icon (click)="onSelect(item)" class="close">close</mat-icon>
+                        <mat-icon (click)="onDelete(item)" class="delete">delete_outline</mat-icon>
                     </ng-container>
 
                     <ng-template #giftTemp>

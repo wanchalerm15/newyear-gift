@@ -1,0 +1,15 @@
+<h3 mat-dialog-title class="text-center">ยินดีด้วย คุณได้ของขวัญของคุณ</h3>
+<div mat-dialog-content>
+    <h1 class="text-danger d-flex align-items-center justify-content-center">
+        <mat-icon>card_giftcard</mat-icon>
+        <span class="ms-2">{{ data.name }}</span>
+    </h1>
+
+    <div class="img">
+        <img [src]="data.image" alt="gift image" class="img-thumbnail">
+    </div>
+
+    <button (click)="onClose()" mat-raised-button color="primary" class="w-100 mt-3">
+        ปิดหน้านี้
+    </button>
+</div>

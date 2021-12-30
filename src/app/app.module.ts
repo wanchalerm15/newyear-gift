@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
+import { DetailDialogComponent } from './detail-dialog/detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HistoryDialogComponent } from './history-dialog/history-dialog.componen
     DashboardComponent,
     ManagerComponent,
     HistoryDialogComponent,
+    DetailDialogComponent,
   ],
   imports: [
     BrowserModule,

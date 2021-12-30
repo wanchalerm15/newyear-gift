@@ -18,6 +18,9 @@
                 <div class="w-100 mb-3">
                     <label for="upload">อัพโหลดภาพของขวัญ</label>
                     <input type="file" class="d-block mt-2" accept="camera" id="upload" (change)="onUpload(file)" #file>
+                    <div class="canvas" [hidden]="!form.value.image">
+                        <canvas #canvas class="img-thumbnail"></canvas>
+                    </div>
                 </div>
 
                 <div class="mb-3 mt-4">

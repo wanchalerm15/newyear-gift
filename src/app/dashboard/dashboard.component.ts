@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { interval, lastValueFrom, Subscription, timer } from 'rxjs';
 import { AppService, IGiftData } from '../app.service';
+import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { HistoryDialogComponent } from '../history-dialog/history-dialog.component';
 
 @Component({
@@ -54,6 +55,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onDelete(item: IGiftData) {
     if (!confirm(`คุณต้องการลบ "${item.name}" จริงหรือ?`)) return;
+    if (prompt('กรอกรหัสผ่านเพื่อยืนยัน') !== 'admin') return this._app.alert('คุณกรอกรหัสผ่านไม่ถูกต้อง');
     this._app.delete(item.name).subscribe({
       next: () => this._app.socket.emit('emit', 'fetch-dashboard'),
       error: err => this._app.alert(err.message)
@@ -74,14 +76,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onHistory() {
     this._app.getItems('1')
-      .subscribe(data => {
-        this._dialog.open(HistoryDialogComponent, { data });
-      });
+      .subscribe(data => this._dialog.open(HistoryDialogComponent, { data }));
   }
 
-  onPlay() {
-    this.step = 1;
-  }
+  onPlay() { this.step = 1; }
 
   onHide(item: IGiftData) {
     const prop = prompt('ระบุชื่อผู้ได้ของขวัญชิ้นนี้');
@@ -99,12 +97,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onSelect(item: IGiftData) {
+  onSelect(item: IGiftData) {
     if (!confirm('คุณเลือกกล่องของขวัญนี้จริงหรือ?')) return;
-    this.showFirework = true;
-    item.open = true;
-    await lastValueFrom(timer(3000));
-    this.showFirework = false;
+    const dialog = this._dialog.open(DetailDialogComponent, {
+      data: item,
+      disableClose: true,
+      hasBackdrop: false
+    });
+    dialog.afterClosed().subscribe(() => this.onHide(item));
+    dialog.afterOpened().subscribe(async () => {
+      item.open = true;
+      this.showFirework = true;
+      this._app.openSound(this.showFirework);
+      await lastValueFrom(timer(5000));
+      this.showFirework = false;
+      this._app.openSound(this.showFirework);
+    });
   }
 
   private _getTime() {
