@@ -13,6 +13,7 @@ export class AppService {
 
   private _socket!: Socket<DefaultEventsMap, DefaultEventsMap>;
   private _items: IGiftData[] = [];
+  private _showQR: boolean = false;
 
   constructor(
     private _snackbar: MatSnackBar,
@@ -23,6 +24,7 @@ export class AppService {
 
   get socket() { return this._socket; }
   get items() { return this._items; }
+  get showQR() { return this._showQR; }
 
   setItems(items: IGiftData[], refresh = true) {
     let index = 0;
@@ -34,10 +36,17 @@ export class AppService {
     });
   }
 
+  setShowQR(status: boolean) {
+    this._showQR = status;
+  }
+
   fetchItems() {
     this._http
       .get<IGiftData[]>('db', { params: { filter: 0 } })
-      .subscribe(res => this._items = res);
+      .subscribe(res => {
+        this._items = res;
+        this._showQR = false;
+      });
   }
 
   getItems(filter: string) {

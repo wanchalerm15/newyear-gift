@@ -66,9 +66,9 @@ export class ManagerComponent implements OnInit {
         const img = new Image();
         img.src = URL.createObjectURL(file);
         img.addEventListener('load', () => {
-          canvas.width = 450;
+          canvas.width = 800;
           canvas.height = canvas.width * (img.height / img.width);
-          ctx.drawImage(img, 0, 0, img.width, img.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           this.form.get('image')?.setValue(canvas.toDataURL('image/jpeg', 0.8));
         });
       }

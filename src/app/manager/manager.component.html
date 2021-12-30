@@ -1,49 +1,55 @@
 <div class="wrapper">
     <div class="container">
-        <form [formGroup]="form" class="card border-0" (submit)="onSubmit()" *ngIf="!complete; else completeTemp">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <form [formGroup]="form" class="card border-0" (submit)="onSubmit()"
+                    *ngIf="!complete; else completeTemp">
 
-            <div class="card-body">
-                <h3 class="card-title text-center">{{ title }}</h3>
+                    <div class="card-body">
+                        <h3 class="card-title text-center">{{ title }}</h3>
 
-                <mat-form-field class="w-100" [appearance]="'fill'">
-                    <mat-label>ชื่อผู้เข้าร่วม</mat-label>
-                    <input matInput formControlName="name">
-                </mat-form-field>
+                        <mat-form-field class="w-100" [appearance]="'fill'">
+                            <mat-label>ชื่อผู้เข้าร่วม</mat-label>
+                            <input matInput formControlName="name">
+                        </mat-form-field>
 
-                <mat-form-field class="w-100" [appearance]="'fill'">
-                    <mat-label>รายละเอียด (ถ้ามี)</mat-label>
-                    <textarea matInput formControlName="detail"></textarea>
-                </mat-form-field>
+                        <mat-form-field class="w-100" [appearance]="'fill'">
+                            <mat-label>รายละเอียด (ถ้ามี)</mat-label>
+                            <textarea matInput formControlName="detail"></textarea>
+                        </mat-form-field>
 
-                <div class="w-100 mb-3">
-                    <label for="upload">อัพโหลดภาพของขวัญ</label>
-                    <input type="file" class="d-block mt-2" accept="camera" id="upload" (change)="onUpload(file)" #file>
-                    <div class="canvas" [hidden]="!form.value.image">
-                        <canvas #canvas class="img-thumbnail"></canvas>
+                        <div class="w-100 mb-3">
+                            <label for="upload">อัพโหลดภาพของขวัญ</label>
+                            <input type="file" class="d-block mt-2" accept="camera" id="upload"
+                                (change)="onUpload(file)" #file>
+                            <div class="canvas" [hidden]="!form.value.image" (dblclick)="form.get('image')?.reset()">
+                                <canvas #canvas class="img-thumbnail"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-4">
+                            <button [disabled]="loading" type="submit" mat-raised-button color="primary" class="w-100">
+                                <mat-icon>how_to_reg</mat-icon>
+                                {{ loading ? 'กำลังโหลด' : 'ลงทะเบียน' }}
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-3 mt-4">
-                    <button [disabled]="loading" type="submit" mat-raised-button color="primary" class="w-100">
-                        <mat-icon>how_to_reg</mat-icon>
-                        {{ loading ? 'กำลังโหลด' : 'ลงทะเบียน' }}
-                    </button>
-                </div>
+                </form>
+
+                <ng-template #completeTemp>
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                            <mat-icon class="icon">check_circle</mat-icon>
+                            <h1>ลงทะเบียนสำเร็จ</h1>
+                            <p>
+                                คุณ <span class="text-danger">"{{ form.value.name || 'ไม่ระบุ' }}"</span>
+                                {{ title }} เรียบร้อยแล้ว
+                            </p>
+                        </div>
+                    </div>
+                </ng-template>
             </div>
-
-        </form>
-
-        <ng-template #completeTemp>
-            <div class="card border-0">
-                <div class="card-body text-center">
-                    <mat-icon class="icon">check_circle</mat-icon>
-                    <h1>ลงทะเบียนสำเร็จ</h1>
-                    <p>
-                        คุณ <span class="text-danger">"{{ form.value.name || 'ไม่ระบุ' }}"</span>
-                        {{ title }} เรียบร้อยแล้ว
-                    </p>
-                </div>
-            </div>
-        </ng-template>
+        </div>
     </div>
 </div>

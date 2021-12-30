@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container py-5">
     <header class="text-center">
         <h1 class="d-flex align-items-center justify-content-center">
             <mat-icon>card_giftcard</mat-icon>
@@ -8,9 +8,9 @@
         <p>เวลา {{ time | date : 'dd/MM/yyyy HH:mm:ss' }}</p>
     </header>
     <br>
-    <div class="row">
+    <div class="row" *ngIf="(items.length > 0 && !showQR); else noDataTemp">
         <div *ngFor="let item of items; let i = index" class="col-md-2">
-            <div class="card border-0" @flyInOut>
+            <div class="card border-0 shadow" @flyInOut>
                 <div class="card-body text-center" [ngClass]="{ 'p-1': step == 1 && !item.open }">
                     <ng-container *ngIf="!(step == 1 && !item.open); else giftTemp">
                         <h4 class="card-title text-nowrap mb-1">
@@ -33,13 +33,16 @@
                         </div>
                     </ng-template>
                 </div>
-
             </div>
         </div>
     </div>
 
     <button mat-fab color="primary" class="button-f" (click)="onPlay()" *ngIf="step == 0">
         <mat-icon>category</mat-icon>
+    </button>
+
+    <button mat-mini-fab class="button-f ml" (click)="onShowQR()" *ngIf="step == 0">
+        <mat-icon>qr_code_scanner</mat-icon>
     </button>
 
     <button mat-mini-fab class="button-f ml" (click)="onRandomNumber()" *ngIf="step == 1">
@@ -58,3 +61,10 @@
 <div class="firework-box" *ngIf="showFirework">
     <img src="assets/images/firework.gif" alt="firework">
 </div>
+
+<ng-template #noDataTemp>
+    <div class="qrcode">
+        <div class="img-thumbnail mb-2" [innerHTML]="qrcode"></div>
+        <h3 class="text-white">สแกนเพื่อลงทะเบียน</h3>
+    </div>
+</ng-template>

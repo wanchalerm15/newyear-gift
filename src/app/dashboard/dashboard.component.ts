@@ -6,6 +6,8 @@ import { interval, lastValueFrom, Subscription, timer } from 'rxjs';
 import { AppService, IGiftData } from '../app.service';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { HistoryDialogComponent } from '../history-dialog/history-dialog.component';
+import * as QRCode from 'qrcode';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,21 +32,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   timespan: string = '';
   step: number = 0;
   time!: Date;
-
+  qrcode?: SafeHtml;
   showFirework: boolean = false;
 
   private _timeSubscript?: Subscription;
 
   constructor(
     private _app: AppService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _domsan: DomSanitizer
   ) {
     this._getTime();
     this._app.fetchItems();
     this._timeSubscript = interval(1000).subscribe(() => this._getTime());
+    QRCode.toString(`${location.origin}/add`).then(s => {
+      this.qrcode = this._domsan.bypassSecurityTrustHtml(s);
+    });
   }
 
   get items() { return this._app.items; }
+  get showQR() { return this._app.showQR; }
 
   ngOnInit(): void {
   }
@@ -101,8 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (!confirm('คุณเลือกกล่องของขวัญนี้จริงหรือ?')) return;
     const dialog = this._dialog.open(DetailDialogComponent, {
       data: item,
-      disableClose: true,
-      hasBackdrop: false
+      disableClose: true
     });
     dialog.afterClosed().subscribe(() => this.onHide(item));
     dialog.afterOpened().subscribe(async () => {
@@ -114,6 +120,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this._app.openSound(this.showFirework);
     });
   }
+
+  onShowQR() { this._app.setShowQR(!this.showQR); }
 
   private _getTime() {
     this.time = new Date();

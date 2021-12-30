@@ -15,10 +15,12 @@ app.use(express.json({ limit: '200MB' }));
 
 app.get('/db', (req, res) => {
     try {
+        const continueFiles = ['.DS_Store'];
         const filter = req.query.filter == '1';
         const dirs = fs.readdirSync(uploadDir);
         const jsons = [];
         dirs.forEach(dir => {
+            if (continueFiles.includes(dir)) return;
             if (!filter && dir.indexOf('-') < 0)
                 jsons.push(JSON.parse(fs.readFileSync(path.join(uploadDir, dir), 'utf8')));
             else if (filter && dir.indexOf('-') >= 0)
