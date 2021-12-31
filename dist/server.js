@@ -80,6 +80,6 @@ io.on('connect', socket => {
     });
 });
 
-app.use(express.static(path.resolve('dist/gifts')));
-app.get('**', (req, res) => res.sendFile(path.resolve('dist/gifts/index.html')));
+app.use(express.static(path.resolve('gifts')));
+app.get('**', (req, res) => res.sendFile(path.resolve('gifts/index.html')));
 server.listen(port, _ => console.log('server is starting port ' + port));

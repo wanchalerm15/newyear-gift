@@ -45,7 +45,7 @@ export class AppService {
       .get<IGiftData[]>('db', { params: { filter: 0 } })
       .subscribe(res => {
         this._items = res;
-        this._showQR = false;
+        this._showQR = res.length <= 0;
       });
   }
 
