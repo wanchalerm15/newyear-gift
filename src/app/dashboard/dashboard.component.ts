@@ -27,7 +27,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  title: string = 'จับฉลากของขวัญปีใหม่ประจำปี 2564';
+  title: string = 'จับฉลากของขวัญปีใหม่ 2564';
   countdown = new Date(2022, 0, 1, 0, 0, 0);
   timespan: string = '';
   step: number = 0;
@@ -121,13 +121,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  onCheck(item: IGiftData) {
+    if (prompt('กรอกรหัสผ่านเพื่อยืนยัน') !== 'admin') return this._app.alert('คุณกรอกรหัสผ่านไม่ถูกต้อง');
+    this.onSelect(item);
+  }
+
   onShowQR() { this._app.setShowQR(!this.showQR); }
 
   private _getTime() {
     this.time = new Date();
     const diff = moment(this.countdown).diff(moment());
     const du = moment.duration(diff);
-    this.timespan = `${du.days()} วัน ${du.hours()} ชั่วโมง ${du.minutes()} นาที ${du.seconds()} วินาที`;
+    this.timespan = `เหลือเวลา ${du.days()} วัน ${du.hours()} ชั่วโมง ${du.minutes()} นาที ${du.seconds()} วินาที`;
+    if (du.asSeconds() <= 0) {
+      this.title = 'สวัสดีปีใหม่ 2565';
+      this.timespan = `ขอให้ทุกคนมีความสุขนะ เฮงรวยๆ มีแต่สิ่งดีๆเข้ามาในชีวิต ^^`;
+      this._timeSubscript?.unsubscribe();
+    }
   }
 }
 

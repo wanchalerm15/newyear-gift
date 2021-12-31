@@ -1,15 +1,13 @@
-<div class="container py-5">
-    <header class="text-center">
+<div class="container pt-5 pb-4 mt-2 mb-2">
+    <header class="text-center mt-4">
         <h1 class="d-flex align-items-center justify-content-center">
-            <mat-icon>card_giftcard</mat-icon>
-            <span class="ms-2">{{ title }}</span>
+            <span class="ms-2" [innerHTML]="title"></span>
         </h1>
-        <p>เหลือเวลาอีก {{ timespan }}</p>
-        <p>เวลา {{ time | date : 'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p>{{ timespan }}</p>
     </header>
     <br>
-    <div class="row" *ngIf="!showQR; else noDataTemp">
-        <div *ngFor="let item of items; let i = index" class="col-md-2">
+    <div class="row g-3" *ngIf="!showQR; else noDataTemp">
+        <div *ngFor="let item of items; let i = index" class="col-xl-2 col-lg-4 col-6">
             <div class="card border-0 shadow" @flyInOut>
                 <div class="card-body text-center" [ngClass]="{ 'p-1': step == 1 && !item.open }">
                     <ng-container *ngIf="!(step == 1 && !item.open); else giftTemp">
@@ -19,7 +17,7 @@
                         <div class="img" [title]="item.detail || 'ไม่มีรายละเอียด'">
                             <img [src]="item.image" class="img-thumbnail" />
                         </div>
-                        <mat-icon (click)="onSelect(item)" class="close">close</mat-icon>
+                        <mat-icon (click)="onCheck(item)" class="close">check</mat-icon>
                         <mat-icon (click)="onDelete(item)" class="delete">delete_outline</mat-icon>
                     </ng-container>
 
@@ -65,6 +63,9 @@
 <ng-template #noDataTemp>
     <div class="qrcode">
         <div class="img-thumbnail mb-2" [innerHTML]="qrcode"></div>
-        <h3 class="text-white">สแกนเพื่อลงทะเบียน</h3>
+        <h3 class="text-white text-center">
+            สแกนเพื่อลงทะเบียน หรือ <br>
+            <a routerLink="/add" class="text-white">ลงทะเบียนที่นี่</a>
+        </h3>
     </div>
 </ng-template>
